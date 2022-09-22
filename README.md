@@ -52,8 +52,7 @@
 <br><br>
 
 # [대표 이미지]
-
- <img src "https://github.com/kimeorua/kimeorua.github.io/blob/main/%EB%8C%80%ED%91%9C%EC%9D%B4%EB%AF%B8%EC%A7%80.png?raw=true">
+<img src="https://github.com/kimeorua/kimeorua.github.io/blob/main/%EB%8C%80%ED%91%9C%EC%9D%B4%EB%AF%B8%EC%A7%80.png?raw=true">
 
 <br><br>
 
