@@ -35,13 +35,11 @@
 
     적의 공격을 정확한 타이밍에 막았을때와 그러지 않을 때의 효과들이 달라서 플레이어가 직접적으로 확인 가능하다.
     
-    - 타이밍을 맞춰 완벽하게 막았을 때 -                 
-
-           <img src="https://github.com/kimeorua/kimeorua.github.io/blob/main/%EC%84%B8%ED%82%A4%EB%A1%9C%ED%8A%95%EA%B2%A8%EB%82%B4%EA%B8%B0.PNG?raw=true">
+    - 타이밍을 맞춰 완벽하게 막았을 때 -
+    <img src="https://github.com/kimeorua/kimeorua.github.io/blob/main/%EC%84%B8%ED%82%A4%EB%A1%9C%ED%8A%95%EA%B2%A8%EB%82%B4%EA%B8%B0.PNG?raw=true">
             
     - 막는 것은 성공 하였으나 타이밍이 늦었을 때 -
-       
-          <img src="https://github.com/kimeorua/kimeorua.github.io/blob/main/%EC%84%B8%ED%82%A4%EB%A1%9C%20%EA%B0%80%EB%93%9C.PNG?raw=true">
+    <img src="https://github.com/kimeorua/kimeorua.github.io/blob/main/%EC%84%B8%ED%82%A4%EB%A1%9C%20%EA%B0%80%EB%93%9C.PNG?raw=true">
 
 
 2. 엘든링: https://youtu.be/S9F3oG6Z39w
