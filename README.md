@@ -31,12 +31,13 @@
 # [관련 이미지 & 동영상]
 
 1. 세키로: https://www.youtube.com/watch?v=1MsHaxh5LxE
-2. 
+
     적과 플레이어의 공격이 부딪힐때 나는 특유의 효과음과 시각적으로 보이는 이펙트가 인상적이다.
 
     적의 공격을 정확한 타이밍에 막았을때와 그러지 않을 때의 효과들이 달라서 플레이어가 직접적으로 확인 가능하다.
     
     - 타이밍을 맞춰 완벽하게 막았을 때 -
+    - 
     <img src="https://github.com/kimeorua/kimeorua.github.io/blob/main/%EC%84%B8%ED%82%A4%EB%A1%9C%ED%8A%95%EA%B2%A8%EB%82%B4%EA%B8%B0.PNG?raw=true">
             
     - 막는 것은 성공 하였으나 타이밍이 늦었을 때 -
