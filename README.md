@@ -31,7 +31,7 @@
 # [관련 이미지 & 동영상]
 
 1. 세키로
-    [![](./.png)](https://www.youtube.com/watch?v=1MsHaxh5LxE)
+    [![](./관련동영상.png)](https://www.youtube.com/watch?v=1MsHaxh5LxE)
 
     적과 플레이어의 공격이 부딪힐때 나는 특유의 효과음과 시각적으로 보이는 이펙트가 인상적이다.
 
