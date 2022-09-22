@@ -30,7 +30,7 @@
 
 # [관련 이미지 & 동영상]
 
-1. 세키로: https://www.youtube.com/watch?v=1MsHaxh5LxE
+1. 세키로
 
     적과 플레이어의 공격이 부딪힐때 나는 특유의 효과음과 시각적으로 보이는 이펙트가 인상적이다.
 
@@ -45,7 +45,7 @@
     <img src="https://github.com/kimeorua/kimeorua.github.io/blob/main/%EC%84%B8%ED%82%A4%EB%A1%9C%20%EA%B0%80%EB%93%9C.PNG?raw=true">
 
 
-2. 엘든링: https://youtu.be/S9F3oG6Z39w
+2. 엘든링
 
     공격 모션이 같으나 이펙트가 확연히 달라 서로 다른 마법이란 것 뿐만아니라 어느 효과가 있는지 또는 속성을 보여주는지 알 수 있음.
 
