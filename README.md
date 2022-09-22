@@ -31,8 +31,7 @@
 # [관련 이미지 & 동영상]
 
 1. 세키로
-2. [![](./img/그림.png)](https://www.youtube.com/watch?v=1MsHaxh5LxE)
-    [<img src = "https://github.com/kimeorua/kimeorua.github.io/blob/main/%EA%B4%80%EB%A0%A8%EB%8F%99%EC%98%81%EC%83%81.PNG?raw=true">(https://www.youtube.com/watch?v=1MsHaxh5LxE)]
+    [![](./img/그림.png)](https://www.youtube.com/watch?v=1MsHaxh5LxE)
 
     적과 플레이어의 공격이 부딪힐때 나는 특유의 효과음과 시각적으로 보이는 이펙트가 인상적이다.
 
