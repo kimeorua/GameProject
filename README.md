@@ -43,7 +43,7 @@
             
     막는 것은 성공 하였으나 타이밍이 늦었을 때
     
-    <img src="https://github.com/kimeorua/kimeorua.github.io/blob/main/%EC%84%B8%ED%82%A4%EB%A1%9C%20%EA%B0%80%EB%93%9C.PNG?raw=true">
+    ![](./img/세키로가드.png)
 
 
 2. 엘든링
