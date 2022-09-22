@@ -31,6 +31,7 @@
 # [관련 이미지 & 동영상]
 
 1. 세키로: https://www.youtube.com/watch?v=1MsHaxh5LxE
+2. 
     적과 플레이어의 공격이 부딪힐때 나는 특유의 효과음과 시각적으로 보이는 이펙트가 인상적이다.
 
     적의 공격을 정확한 타이밍에 막았을때와 그러지 않을 때의 효과들이 달라서 플레이어가 직접적으로 확인 가능하다.
@@ -52,6 +53,7 @@
 <br><br>
 
 # [대표 이미지]
+
 <img src="https://github.com/kimeorua/kimeorua.github.io/blob/main/%EB%8C%80%ED%91%9C%EC%9D%B4%EB%AF%B8%EC%A7%80.png?raw=true">
 
 <br><br>
