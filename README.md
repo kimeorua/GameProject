@@ -349,19 +349,19 @@
 
 ### 1. MainCharacter
 
-![](./img/대표이미지.png)
+![](./img/메인상태.JPG)
 
 ### 2. MadWarrior
 
-![](./img/대표이미지.png)
+![](./img/보스1상태.JPG)
 
 ### 3. Beast
 
-![](./img/대표이미지.png)
+![](./img/보스2상태.JPG)
 
 ### 4. CorruptedKnight
 
-![](./img/대표이미지.png)
+![](./img/보스3상태.JPG)
 
 
  ## [게임 규칙]
