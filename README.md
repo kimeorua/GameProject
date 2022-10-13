@@ -258,7 +258,7 @@
 |페이즈| Pase |몬스터의 현제 페이즈|
 |패턴 난수| RandomNum |몬스터의 패턴을 랜덤으로 나오게 하는 변수|
 
-### 5.: CorruptedKnight
+### 5.: CorruptedKing
 
 |속성 |영문명칭| 설명|
 |:----:|:----:|:----:|
@@ -327,7 +327,7 @@
 |경직| Stun |플레이어가 패링에 성공 시 경직되는 행동|
 
 
-### 4. CorruptedKnight
+### 4. CorruptedKing
 
 |속성|영문명칭|설명|
 |:----:|:----:|:----:|
@@ -361,7 +361,7 @@
 
 ![](./img/보스2상태.JPG)
 
-### 4. CorruptedKnight
+### 4. CorruptedKing
 
 ![](./img/보스3상태.JPG)
 
