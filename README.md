@@ -1,4 +1,4 @@
-# 프로젝트명: Magnus Bellator(위대한 전사) 1888003 김대겸
+# 프로젝트명: Magnus Bellator(1888003 김대겸)
 
 ## [목차]
 
