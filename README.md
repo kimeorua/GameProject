@@ -523,3 +523,18 @@
    ![](./img/1weekImg/BS걷기달리기.PNG)
    
    -> 가로축을 속도(Speed)로 지정하고 최솟값을 400 최대값을 800으로 지정하여 현제 속도에 따라 걷기, 달리기 애니메이션을 전환 하는 것을 구현
+   
+   ![](./img/1weekImg/전체애니메이션.PNG)
+   
+   -> 기존의 Idke, Walk/Run 애니메이션을 Locomation으로 통합하여 Locomation과 점프 상태의 애니메이션 전환을 구현,
+   
+   점프 상태는 JumpStart(점프 시작), JumpLoop(공중), JumpEnd(착지) 3단계로 구분하여 구현 하며,
+  
+  Locomation->JumpStart(점프 시작)의 조건은 isInAir(점프를 하였는가?)가 true일때
+  
+  JumpStart(점프 시작)->JumpLoop(공중)의 조건은 JumpStart(점프 시작)의 애니메이션이 종료 되었을때
+  
+  JumpLoop(공중)->JumpEnd(착지)는 해당 애니메이션이 90% 진행 되었을때,
+  
+  JumpEnd(착지)->Locomation은ㄴ isInAir(점프를 하였는가?)가 false일때 이다.
+   
