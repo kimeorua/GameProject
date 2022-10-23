@@ -505,36 +505,35 @@
 
 목표: 캐릭터 기본 이동 구현 : W(앞), A(좌), S(뒤), D(우), 스페이스바(점프), 왼쪽 쉬프트(달리기) 마우스(시점 회전)
 
-   ![](./img/1weekImg/이동및시점구현도.PNG)
+![](./img/1weekImg/이동및시점구현도.PNG)
    
-   -> 각 키에 해당하는이벤트를 설정후 메인캐릭터 블루프린트에서 이동및 점프 시점회전, 대쉬를 구현함, 대쉬는 좌측 쉬프트 키가 OnKey되었을 경우 최대 걷기 속도를 올리고, 
+ -> 각 키에 해당하는이벤트를 설정후 메인캐릭터 블루프린트에서 이동및 점프 시점회전, 대쉬를 구현함, 대쉬는 좌측 쉬프트 키가 OnKey되었을 경우 최대 걷기 속도를 올리고, 
       OffKey되었을때 원래 속도로 되돌림
       
-   ![](./img/1weekImg/AimBP초기화.PNG)
+![](./img/1weekImg/AimBP초기화.PNG)
 
-   -> 애니메이션 블루프린트에서 연동되어 있는 오브젝트(메인 캐릭터)를 참조 하여, 속도 및 현제 점프하였는지에 해당하는 변수를 선언 및 초기화
+-> 애니메이션 블루프린트에서 연동되어 있는 오브젝트(메인 캐릭터)를 참조 하여, 속도 및 현제 점프하였는지에 해당하는 변수를 선언 및 초기화
    
-   ![](./img/1weekImg/idle,Walk,Run애니메이션.PNG)
+![](./img/1weekImg/idle,Walk,Run애니메이션.PNG)
    
-   -> 해당 애니메이션의 애님그래프(애니메이션 간의 상호작용)을 설정, Idle(대기)<-> Walk/Run(걷기/달리기)
+-> 해당 애니메이션의 애님그래프(애니메이션 간의 상호작용)을 설정, Idle(대기)<-> Walk/Run(걷기/달리기)
    
-   이때 Idle(대기)->Walk/Run(걷기/달리기)의 조건은 Speed > 0 일때이고, Idle(대기)<-Walk/Run(걷기/달리기)의 조건은 Speed <= 0 이다
+이때 Idle(대기)->Walk/Run(걷기/달리기)의 조건은 Speed > 0 일때이고, Idle(대기)<-Walk/Run(걷기/달리기)의 조건은 Speed <= 0 이다
    
-   ![](./img/1weekImg/BS걷기달리기.PNG)
+![](./img/1weekImg/BS걷기달리기.PNG)
    
-   -> 가로축을 속도(Speed)로 지정하고 최솟값을 400 최대값을 800으로 지정하여 현제 속도에 따라 걷기, 달리기 애니메이션을 전환 하는 것을 구현
+-> 가로축을 속도(Speed)로 지정하고 최솟값을 400 최대값을 800으로 지정하여 현제 속도에 따라 걷기, 달리기 애니메이션을 전환 하는 것을 구현
    
-   ![](./img/1weekImg/전체애니메이션.PNG)
+![](./img/1weekImg/전체애니메이션.PNG)
    
-   -> 기존의 Idke, Walk/Run 애니메이션을 Locomation으로 통합하여 Locomation과 점프 상태의 애니메이션 전환을 구현,
+-> 기존의 Idke, Walk/Run 애니메이션을 Locomation으로 통합하여 Locomation과 점프 상태의 애니메이션 전환을 구현,
    
-   점프 상태는 JumpStart(점프 시작), JumpLoop(공중), JumpEnd(착지) 3단계로 구분하여 구현 하며,
+점프 상태는 JumpStart(점프 시작), JumpLoop(공중), JumpEnd(착지) 3단계로 구분하여 구현 하며,
   
-  Locomation->JumpStart(점프 시작)의 조건은 isInAir(점프를 하였는가?)가 true일때
+Locomation->JumpStart(점프 시작)의 조건은 isInAir(점프를 하였는가?)가 true일때
   
-  JumpStart(점프 시작)->JumpLoop(공중)의 조건은 JumpStart(점프 시작)의 애니메이션이 종료 되었을때
+JumpStart(점프 시작)->JumpLoop(공중)의 조건은 JumpStart(점프 시작)의 애니메이션이 종료 되었을때
   
-  JumpLoop(공중)->JumpEnd(착지)는 해당 애니메이션이 90% 진행 되었을때,
+JumpLoop(공중)->JumpEnd(착지)는 해당 애니메이션이 90% 진행 되었을때,
   
-  JumpEnd(착지)->Locomation은ㄴ isInAir(점프를 하였는가?)가 false일때 이다.
-   
+JumpEnd(착지)->Locomation은ㄴ isInAir(점프를 하였는가?)가 false일때 이다.
