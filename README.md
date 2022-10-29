@@ -608,6 +608,8 @@ JumpEnd(착지)->Locomation은ㄴ isInAir(점프를 하였는가?)가 false일�
 
 ![](./img/W2/구르기.PNG)
 
-![](./img/W2/구르기-내부-함수.PNG)
+![](./img/W2/구르기내부함수.PNG)
 
 ![](./img/W2/ABP구르기종료.PNG)
+
+![](./img/W2/WASD이동.PNG)
