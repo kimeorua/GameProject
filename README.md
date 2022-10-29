@@ -593,3 +593,11 @@ JumpStart(점프 시작)->JumpLoop(공중)의 조건은 JumpStart(점프 시작)
 JumpLoop(공중)->JumpEnd(착지)는 해당 애니메이션이 90% 진행 되었을때,
   
 JumpEnd(착지)->Locomation은ㄴ isInAir(점프를 하였는가?)가 false일때 이다.
+
+### [2주차]
+
+1. 구르기 구현
+
+스페이스 키를 누르면 구르기를 하도록 구현
+
+![](./img/W2/디폴트슬롯설정.PNG)
