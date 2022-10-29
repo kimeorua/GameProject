@@ -601,3 +601,13 @@ JumpEnd(착지)->Locomation은ㄴ isInAir(점프를 하였는가?)가 false일�
 스페이스 키를 누르면 구르기를 하도록 구현
 
 ![](./img/W2/디폴트슬롯설정.PNG)
+
+![](./img/W2/애니메이션몽타주Start설정.PNG)
+
+![](./img/W2/애니메이션RollingEnd설정.PNG)
+
+![](./img/W2/구르기.PNG)
+
+![](./img/W2/구르기내부함수.PNG)
+
+![](./img/W2/ABP구르기종료.PNG)
