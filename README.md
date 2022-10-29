@@ -613,3 +613,11 @@ JumpEnd(착지)->Locomation은ㄴ isInAir(점프를 하였는가?)가 false일�
 ![](./img/W2/ABP구르기종료.PNG)
 
 ![](./img/W2/WASD이동.PNG)
+
+![](./img/W2/소켓지정.PNG)
+
+플레이어 캐릭터의 스켈레톤에 무기 및 방패가 장착될 소켓을 지정한다.
+
+![](./img/W2/무기장착함수.PNG)
+
+
