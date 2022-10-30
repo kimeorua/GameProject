@@ -620,4 +620,7 @@ JumpEnd(착지)->Locomation은ㄴ isInAir(점프를 하였는가?)가 false일�
 
 ![](./img/W2/무기장착함수.PNG)
 
+### 2주차 개선 
+
+대검 장착 구현 및 애니메이션 변경 기능 구현
 
