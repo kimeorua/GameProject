@@ -719,12 +719,12 @@ AttackEnd가 호출되면 콤보공격이 0으로 초기화 되고 IsAttack도 f
 
 ![](./img/w3/스킬구현3.PNG)
 
--> "QSkill" 이라는 액션키가 IE_Pressed(눌리면) QSkillActive()함수가 
+-> "QSkill" 이라는 액션키가 IE_Pressed(눌리면) 메인캐릭터의 QSkillActive()함수가 호출 됨.
 
 ![](./img/w3/스킬구현1.PNG)
 
-
-
-스킬 종료 시
+-> 해당 함수는 호출되면 현제 상태를 체크하고 스킬 사용이 가능하면 ActivateSkill를 true로 변경하여 스킬 사용중에 다른 행동을 금지하고, 해당하는 스킬의 애니메이션을 실행함
 
 ![](./img/w3/스킬구현2.PNG)
+
+스킬 애니메이션이 특정 지점에 도달하면 스킬 종료 함수를 호출하여 ActivateSkill를 false로 변경하여 다른 행동이 가능하게 설정함.
