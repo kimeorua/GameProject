@@ -752,3 +752,13 @@ AttackEnd가 호출되면 콤보공격이 0으로 초기화 되고 IsAttack도 f
 -> PlayPortionMontage()함수는 포션 사용 애니메이션을 재생 시키고
    
    AnimNotify_UsePortionEnd()함수는 위에서 설명한 노티파이 함수로 애니메이션에 지정된 UsePortionEnd 지점에 도달하면 DecreasePortion()함수를 호출한다
+   
+### 4.스태미나 자동 회복 구현
+   
+![](./img/w3/스태미나1.PNG)
+ 
+-> 현제 스태미나를 확인하고 일정 수치만큼 더하는 함수
+
+![](./img/w3/스태미나2.PNG)
+   
+-> 위의 함수를 Delay함수를 이용하여 Main_BP에서 일정 시간마다 호출 하여 자동으로 스태미나가 회복하는 기능을 구현함
