@@ -815,4 +815,4 @@ Enemy.cpp(https://github.com/kimeorua/kimeorua.github.io/blob/main/private/Enemy
 
 ### 4. 구현 영상
 
-![](./img/w4/적AI.)
+![](./img/w4/적AI.gif)
