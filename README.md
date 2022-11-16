@@ -809,5 +809,4 @@ Enemy.cpp(https://github.com/kimeorua/kimeorua.github.io/blob/main/private/Enemy
 
 ### 3. 패턴 구현
 
-
-
+![](./img/w4/비헤이비어트리.PNG)
