@@ -15,8 +15,7 @@ class CPP_MAGNUSBELLATROR_API UBTService_Detect : public UBTService
 	GENERATED_BODY()
 
 public:
-	UBTService_Detect(); //»ı¼ºÀÚ
-
+	UBTService_Detect(); //ìƒì„±ì
 protected:
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
 };
