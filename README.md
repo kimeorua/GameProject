@@ -789,10 +789,20 @@ AnimNotify_UsePortionEnd()함수는 위에서 설명한 노티파이 함수로 �
 
 2.적AI
 
+3. 패턴 구현
+
 ### 1. 적 캐릭터
 
 메인캐릭터처럼 ACharacter를 상속받아 Enemy클래스를 작성함.
 
-Enemy.h
-(https://github.com/kimeorua/kimeorua.github.io/blob/main/public/Enemy.h)
+Enemy.h(https://github.com/kimeorua/kimeorua.github.io/blob/main/public/Enemy.h)
 
+Enemy.cpp(https://github.com/kimeorua/kimeorua.github.io/blob/main/private/Enemy.cpp)
+
+#### 2. 적AI
+
+AIController클래스를 상속 받아 EnemyController클래스를 작성 함
+
+Enemy.h(https://github.com/kimeorua/kimeorua.github.io/blob/main/public/EnemyController.h)
+
+Enemy.cpp(https://github.com/kimeorua/kimeorua.github.io/blob/main/private/EnemyController.cpp)
