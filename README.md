@@ -799,10 +799,15 @@ Enemy.h(https://github.com/kimeorua/kimeorua.github.io/blob/main/public/Enemy.h)
 
 Enemy.cpp(https://github.com/kimeorua/kimeorua.github.io/blob/main/private/Enemy.cpp)
 
-#### 2. 적AI
+### 2. 적AI
 
 AIController클래스를 상속 받아 EnemyController클래스를 작성 함
 
 Enemy.h(https://github.com/kimeorua/kimeorua.github.io/blob/main/public/EnemyController.h)
 
 Enemy.cpp(https://github.com/kimeorua/kimeorua.github.io/blob/main/private/EnemyController.cpp)
+
+### 3. 패턴 구현
+
+
+
