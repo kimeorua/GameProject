@@ -10,7 +10,7 @@
 UBTService_Distance::UBTService_Distance()
 {
 	NodeName = TEXT("Distance");
-	Interval = 1.0f;
+	Interval = 0.1f;
 }
 
 void UBTService_Distance::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
@@ -30,8 +30,11 @@ void UBTService_Distance::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Nod
 		return;
 	}
 		
-	bool bResult;
-	bResult = (Target->GetDistanceTo(ControllingPawn) <= 1000);
+	//bool bResult;
+	float Distance = 600.0;
+	Distance = Target->GetDistanceTo(ControllingPawn);
+	//bResult = (Target->GetDistanceTo(ControllingPawn) <= 1000);
 
-	OwnerComp.GetBlackboardComponent()->SetValueAsBool(AEnemyController::Distance, bResult);
+	//OwnerComp.GetBlackboardComponent()->SetValueAsBool(AEnemyController::Distance, bResult);
+	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(AEnemyController::Distance, Distance);
 }

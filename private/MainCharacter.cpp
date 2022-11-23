@@ -10,6 +10,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Weapon.h"
 #include "MainAnimInstance.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sheild.h"
 
 // Sets default values
 // 변수 초기화 및 컴포넌트 생성
@@ -35,7 +37,7 @@ AMainCharacter::AMainCharacter()
 	SP = MaxSP;
 
 	Healing = 25.0f;
-	RollingSP = 50.0f;
+	RollingSP = 10.0f;
 
 	RecoverySP = 1.5f;
 
@@ -46,7 +48,6 @@ AMainCharacter::AMainCharacter()
 	AttackButtonWhenAttack = false;
 	IsBlock = false;
 	ActivateSkill = false;
-	bIsRecovery = true;
 
 	SwordAndShiledMontage = nullptr;
 	GreatSwordMontage = nullptr;
@@ -57,7 +58,6 @@ AMainCharacter::AMainCharacter()
 	MainWeapon = nullptr;
 
 	IsHealing = false;
-
 
 	// 컴포넌트 //
 	//
@@ -157,7 +157,7 @@ void  AMainCharacter::Rolling()
 		SP -= RollingSP;
 		auto AnimInstance = Cast<UMainAnimInstance>(GetMesh()->GetAnimInstance()); // AnimInstance 변수 생성
 		if (nullptr == AnimInstance) { return; } // 애니메이션이 지정 되어 있지 않으면 retrun
-
+		//GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		AnimInstance->PlayRollingMontage(); // MainAnimInstance에 있는 PlayRollingMintage 호출
 	}
 }
@@ -166,6 +166,7 @@ void  AMainCharacter::Rolling()
 void AMainCharacter::RollingEnd()
 {
 	IsRolling = false;
+	//GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 }
 
 //현제 모드 설정 함수(한손검 +1, 방패 +1, 대검 +3 으로 설정 하여 Mode 값이 2 이면 검&방패 사용, 3이면 대검 사용)
@@ -181,7 +182,7 @@ void AMainCharacter::LMBdawn()
 
 	if (IsAttack == false && ActivateSkill == false && IsHealing == false && !IsBlock) // 공격 중X 스킬 사용X, 포션 사용X 일때  공격 함수 호출
 	{
-		Attack(); 
+		Attack();
 	}
 	else if (IsAttack == true) // 이미 공격중이면 콤보 공격을 할려는것으로 판단, 변수 설정
 	{
@@ -201,6 +202,7 @@ void AMainCharacter::Attack()
 
 	if ( Mode == 2) // 검&방패 상태라면그에 맞는 애니메이션 출력
 	{
+		bIsRecovery = false;
 		SetActorRotation(FRotator(0.f, GetControlRotation().Yaw, 0.f));
 		if (!AnimInstance->Montage_IsPlaying(SwordAndShiledMontage)) // 몽타주가 재생 중이 아니면
 		{
@@ -208,12 +210,13 @@ void AMainCharacter::Attack()
 		}
 		else if (AnimInstance->Montage_IsPlaying(SwordAndShiledMontage)) // 이미 몽타주가 재생 중이면 -> 현제 공격중 으로 판단 콤보 공격 출력
 		{
-			AnimInstance->Montage_Play(SwordAndShiledMontage); //몽타주 재생(1번 콤보)
+			AnimInstance->Montage_Play(SwordAndShiledMontage, 1.2f); //몽타주 재생(1번 콤보)
 			AnimInstance->Montage_JumpToSection(FName(combolist[ComboNum]), SwordAndShiledMontage); // 2 or 3번째(combolist[ComboNum])섹션으로 이동
 		}
 	}
 	else if (Mode == 3) // 대검 상태에 맞는 애니메이션 출력
 	{
+		bIsRecovery = false;
 		SetActorRotation(FRotator(0.f, GetControlRotation().Yaw, 0.f));
 		if (!(AnimInstance->Montage_IsPlaying(GreatSwordMontage)))
 		{
@@ -234,11 +237,12 @@ void AMainCharacter::Attack()
 void AMainCharacter::AttackEnd() // 공격이 종료 되었으면 공격중 상태를 false로
 {
 	IsAttack = false;
+	bIsRecovery = true;
 }
 
 void AMainCharacter::BlockStart() //마우스 우클릭시  호출, 현제 검&방패 모드이면, IsBlock 을 true로 설정, 방어 중함수 호출
 {
-	if (Mode == 2 && SP > 0)
+	if (Mode == 2 && SP > 0 && !IsAttack)
 	{
 		IsBlock = true;
 		Block();
@@ -270,7 +274,6 @@ void AMainCharacter::BlockEnd()
 	{
 		IsBlock = false;
 		auto AnimInstance = Cast<UMainAnimInstance>(GetMesh()->GetAnimInstance());
-		//AnimInstance->Montage_Stop(0.0f, BlockMontage);
 		AnimInstance->PlayBlockEndMontage();
 		bIsRecovery = true;
 	}
@@ -292,7 +295,7 @@ void AMainCharacter::CheackCombo()
 	}
 }
 
-// Q스킬 작동 함수
+// Q스킬 작동 함수 스킬 사용시 해당하는 스킬 번호 지정
 void AMainCharacter::QSkillActive()
 {
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
@@ -301,6 +304,7 @@ void AMainCharacter::QSkillActive()
 	{
 		ActivateSkill = true; //현제 스킬중 상태로 변경
 		AnimInstance->Montage_Play(QSkillMontage); // 스킬 애니메이션 재생
+		MainWeapon->SkillNum = 1;
 	}
 	else
 	{
@@ -308,7 +312,7 @@ void AMainCharacter::QSkillActive()
 	}
 }
 
-// Q스킬과 동일
+// Q스킬과 동일, 스킬 사용시 해당하는 스킬 번호 지정
 void AMainCharacter::ESkillActive()
 {
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
@@ -317,6 +321,7 @@ void AMainCharacter::ESkillActive()
 	{
 		ActivateSkill = true;
 		AnimInstance->Montage_Play(ESkillMontage);
+		MainWeapon->SkillNum = 2;
 	}
 	else
 	{
@@ -376,6 +381,11 @@ void AMainCharacter::SettingWeapon(AWeapon* Weapon)
 	MainWeapon = Weapon;
 }
 
+void AMainCharacter::SettingSheild(ASheild* Sheild)
+{
+	MainSheild = Sheild;
+}
+
 // 마법 발동 함수
 void AMainCharacter::MagicOn()
 {
@@ -401,10 +411,78 @@ void AMainCharacter::MagicOn()
 	}
 }
 
+float AMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float Damage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	if (HP > 0 && !IsRolling)
+	{
+		if (IsBlock && MainSheild->bUseBlock)
+		{
+			if (SP - DamageAmount <= 0)
+			{
+				SP = 0;
+			}
+			else
+			{
+				SP -= DamageAmount * 2.5;
+			}
+		}
+		else if (!IsBlock || (!MainSheild->bUseBlock))
+		{
+			if (HP - DamageAmount <= 0)
+			{
+				HP = 0;
+				Die();
+			}
+			else
+			{
+				HP -= DamageAmount;
+				Hit();
+			}
+		}
+	}
+	return Damage;
+}
+
+void AMainCharacter::Hit()
+{
+	if (!ActivateSkill)
+	{
+		auto AnimInstance = Cast<UMainAnimInstance>(GetMesh()->GetAnimInstance());
+		AnimInstance->PlayHitMontage();
+		DisableInput(UGameplayStatics::GetPlayerController(this, 0));
+	}
+	else
+	{
+		return;
+	}
+}
+
+void AMainCharacter::HitEnd()
+{
+	EnableInput(UGameplayStatics::GetPlayerController(this, 0));
+}
+
+void AMainCharacter::Die()
+{
+	auto AnimInstance = Cast<UMainAnimInstance>(GetMesh()->GetAnimInstance());
+	AnimInstance->PlayDieMontage();
+	DisableInput(UGameplayStatics::GetPlayerController(this, 0));
+
+	FTimerHandle WaitHandle;
+	float WaitTime = 1.5f; //시간을 설정하고
+	GetWorld()->GetTimerManager().SetTimer(WaitHandle, FTimerDelegate::CreateLambda([&]()
+		{
+			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			Destroy();
+		}), WaitTime, false); //반복도 여기서 추가 변수를 선언해 설정가능
+}
+
 // Called when the game starts or when spawned
 void AMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	bIsRecovery = true;
 }
 
 // Called every frame

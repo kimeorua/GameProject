@@ -8,6 +8,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "particles/ParticleSystemComponent.h"
 #include "MainCharacter.h"
+#include "Enemy.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 AWeapon::AWeapon()
@@ -39,6 +41,10 @@ AWeapon::AWeapon()
 	MagicParticle->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, Mesh->GetSocketBoneName("Root"));
 	MagicParticle->bAutoActivate = false; //자동 활성화 off -> 마법 스킬 사용시 이펙트 출력
 
+	CombetCollison = CreateDefaultSubobject<UBoxComponent>(TEXT("CombetCollison"));
+	CombetCollison->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, CombetCollisionName);
+	CombetCollison->OnComponentBeginOverlap.AddDynamic(this, &AWeapon::CombetOverlapBegin);
+
 	//변수//
 	Main = nullptr;
 	EquipAble = false;
@@ -46,6 +52,9 @@ AWeapon::AWeapon()
 
 	SocketName = "";
 	ModeNum = 0;
+	SkillNum = 0;
+	Damage = 3.f;
+	UpDamage = Damage * 0.5;
 
 	EquipSound = nullptr;
 	QSkillMontage = nullptr;
@@ -56,6 +65,8 @@ AWeapon::AWeapon()
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+
+	CombetCollison->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 // Called every frame
@@ -133,6 +144,7 @@ void AWeapon::MagicActivate()
 	{
 		MagicParticle->ToggleActive(); // 파티클을 재생함
 		bIsMagic = true; //마법 중으로 변경 
+		Damage += UpDamage;
 	}
 	else
 	{
@@ -140,7 +152,7 @@ void AWeapon::MagicActivate()
 	}
 
 	FTimerHandle GravityTimerHandle;
-	float GravityTime = 5.0f; // 버프의 지속 시간
+	float GravityTime = 15.0f; // 버프의 지속 시간
 
 	GetWorld()->GetTimerManager().SetTimer(GravityTimerHandle, FTimerDelegate::CreateLambda([&]()
 		{
@@ -155,5 +167,44 @@ void AWeapon::MagicDeactivate()
 {
 	MagicParticle->ToggleActive();
 	bIsMagic = false;
+	Damage -= UpDamage;
+}
+
+//데미지 주기 평타 스킬 번호에 따라 다르게 계산
+void AWeapon::CombetOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (IsValid(OtherActor))
+	{
+		AEnemy* Enemy = Cast<AEnemy>(OtherActor);
+		if (IsValid(Enemy))
+		{
+			if (SkillNum == 1)
+			{
+				UGameplayStatics::ApplyDamage(Enemy, Damage * 2, NULL, this, NULL); 
+			}
+			else if (SkillNum == 2)
+			{
+				UGameplayStatics::ApplyDamage(Enemy, Damage * 0.8,  NULL, this, NULL);
+			}
+			else
+			{
+				UGameplayStatics::ApplyDamage(Enemy, Damage * 0.5, NULL, this, NULL);
+			}
+		}
+		else { return; }
+	}
+	else { return; }
+	UE_LOG(LogTemp, Warning, TEXT("OtherActor:: %s"), *OtherActor->GetName());
+}
+
+// 애니메이션BP에서 노티파이를 통해 호출 콜리전on/off
+void AWeapon::StartCollision()
+{
+	CombetCollison->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+}
+
+void AWeapon::EndCollision()
+{
+	CombetCollison->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 

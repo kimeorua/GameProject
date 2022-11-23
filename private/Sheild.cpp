@@ -6,6 +6,8 @@
 #include "Components/TextRenderComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "MainCharacter.h"
+#include "Components/BoxComponent.h"
+#include "Enemy.h"
 
 // Sets default values
 ASheild::ASheild()
@@ -18,6 +20,9 @@ ASheild::ASheild()
 
 	Collison = CreateDefaultSubobject<USphereComponent>(TEXT("Collsion"));
 	Collison->SetupAttachment(RootComponent);
+	Collison->SetCollisionEnabled(ECollisionEnabled::QueryOnly); // 충돌 판정을 Overlap만 허용
+	Collison->OnComponentBeginOverlap.AddDynamic(this, &ASheild::OnOverlapBegin); //스피어 콜리전 오버랩 이벤트 생성(Begin)
+	Collison->OnComponentEndOverlap.AddDynamic(this, &ASheild::OnOverlapEnd); //스피어 콜리전 오버랩 이벤트 생성(End)
 
 	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
 	Arrow->SetupAttachment(RootComponent);
@@ -26,10 +31,11 @@ ASheild::ASheild()
 	Text->SetupAttachment(RootComponent);
 	Text->SetVisibility(false); // 게임 시작시 보이지 않음
 
-	Collison->SetCollisionEnabled(ECollisionEnabled::QueryOnly); // 충돌 판정을 Overlap만 허용
-
-	Collison->OnComponentBeginOverlap.AddDynamic(this, &ASheild::OnOverlapBegin); //스피어 콜리전 오버랩 이벤트 생성(Begin)
-	Collison->OnComponentEndOverlap.AddDynamic(this, &ASheild::OnOverlapEnd); //스피어 콜리전 오버랩 이벤트 생성(End)
+	BlockCollison = CreateDefaultSubobject<UBoxComponent>(TEXT("BlockCollison"));
+	BlockCollison->SetupAttachment(RootComponent);
+	BlockCollison->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	BlockCollison->OnComponentBeginOverlap.AddDynamic(this, &ASheild::BlockCollisionOverlapBegin);
+	BlockCollison->OnComponentEndOverlap.AddDynamic(this, &ASheild::BlockCollisionOverlapEnd);
 
 	Main = nullptr;
 	EquipAble = false;
@@ -71,6 +77,39 @@ void ASheild::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 	}
 }
 
+void ASheild::BlockCollisionOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor)
+	{
+		AEnemy* Enemy = Cast<AEnemy>(OtherActor);
+		if (IsValid(Enemy))
+		{
+			bUseBlock = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("OtherActor:: %s"), *OtherActor->GetName());
+		}
+	}
+	UE_LOG(LogTemp, Warning, TEXT("OtherActor:: %s"), *OtherActor->GetName());
+}
+
+void ASheild::BlockCollisionOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor)
+	{
+		AEnemy* Enemy = Cast<AEnemy>(OtherActor);
+		if (IsValid(Enemy))
+		{
+			bUseBlock = false;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("OtherActor:: %s"), *OtherActor->GetName());
+		}
+	}
+}
+
 void ASheild::Equip()
 {
 	if (EquipAble) // 장착 가능일때만 작동
@@ -78,6 +117,10 @@ void ASheild::Equip()
 		Main->SetMode(ModeNum);
 		if (Main->Mode < 4) // 검 + 대검 or 방패 + 대검 장착을 제한 -> 검+대검 or 방패 + 대검 은 Mode가 4가 되어 장착 불가
 		{
+			if (ActorHasTag("Sheild"))
+			{
+				Main->SettingSheild(this);
+			}
 			UGameplayStatics::PlaySound2D(this, EquipSound);	//사운드 출력
 			AttachToComponent(Main->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, SocketName); //지정된 소켓에 부착
 			Text->SetVisibility(false); // 택스트 숨김
@@ -89,6 +132,11 @@ void ASheild::Equip()
 			Main->SetMode(-ModeNum); //중복 장착 시 Mode 값 초기화
 		}
 	}
+}
+
+void ASheild::EndCollision()
+{
+	BlockCollison->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 // Called when the game starts or when spawned

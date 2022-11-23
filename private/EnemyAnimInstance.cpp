@@ -40,3 +40,19 @@ void UEnemyAnimInstance::PlayRangeAttackMontage()
 {
 	Montage_Play(RangeAttackMontageStrong, 1.3f);
 }
+
+void UEnemyAnimInstance::PlayHitMontage()
+{
+	if (!Montage_IsPlaying(HitMontage))
+	{
+		Montage_Play(HitMontage);
+	}
+}
+
+void UEnemyAnimInstance::PlayDieMontage()
+{
+	if (!Montage_IsPlaying(DieMontage))
+	{
+		Montage_Play(DieMontage);
+	}
+}

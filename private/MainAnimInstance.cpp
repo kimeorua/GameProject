@@ -54,7 +54,7 @@ void UMainAnimInstance::PlayOnHandCastMontage()
 {
 	if (!Montage_IsPlaying(OnHandCastMontage))
 	{
-		Montage_Play(OnHandCastMontage);
+		Montage_Play(OnHandCastMontage, 1.3f);
 	}
 }
 
@@ -63,7 +63,7 @@ void UMainAnimInstance::PlayGreatSwordCastMontage()
 {
 	if (!Montage_IsPlaying(GreatSwordCastMontage))
 	{
-		Montage_Play(GreatSwordCastMontage);
+		Montage_Play(GreatSwordCastMontage, 1.3f);
 	}
 }
 
@@ -72,6 +72,22 @@ void UMainAnimInstance::PlayBlockEndMontage()
 	if (!Montage_IsPlaying(BlockEndMontage))
 	{
 		Montage_Play(BlockEndMontage);
+	}
+}
+
+void UMainAnimInstance::PlayHitMontage()
+{
+	if (!Montage_IsPlaying(HitMontage))
+	{
+		Montage_Play(HitMontage);
+	}
+}
+
+void UMainAnimInstance::PlayDieMontage()
+{
+	if (!Montage_IsPlaying(DieMontage))
+	{
+		Montage_Play(DieMontage);
 	}
 }
 
