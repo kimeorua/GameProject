@@ -842,3 +842,9 @@ ApplyDamage()를 통해 데미지를 주고 플레이어는 TageDamage()로 받�
 플레이어가 사용하는 무기(Weapon)클래스에 BoxCollision을 추가하여 overlap이벤트를 발생시킴, BoxCollision이 보스와 겹치면(Overlap되면), 
 ApplyDamage()를 통해 데미지를 주고 보스는 TageDamage()로 받은데미지 만큼 HP를 감소시킴, HP <= 0 -> true이면 Die()를 호출하여, 
 보스의 사망 애니메이션과 Collision을 off 하고, 삭제 시키며, 그외의 경우에는 Hit()을 호출하여 피격 모션을 재생 시킨다.
+
+### 2.구현 영상
+
+|플레이어 죽음|보스 죽음|
+|----:|:----:|
+|![](./img/죽음.gif)|![](./img/보스죽음.gif)|![](./img/w3/포션.gif)|![](./img/w3/검방마법.gif)|![](./img/w3/대검마법.gif)|
