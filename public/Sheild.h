@@ -23,6 +23,9 @@ private:
 	UPROPERTY(Category = Character, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UArrowComponent* Arrow;
 
+	UPROPERTY(Category = Character, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UBoxComponent* BlockCollison;
+
 	//가까이 가면 보일 택스트
 	UPROPERTY(Category = Character, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UTextRenderComponent* Text;
@@ -48,6 +51,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mode")
 	USoundBase* EquipSound;
 
+	bool bUseBlock = false;
+
 public:	
 	// Sets default values for this actor's properties
 	ASheild();
@@ -59,8 +64,16 @@ public:
 	UFUNCTION()
 	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	UFUNCTION()
+	void BlockCollisionOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	//오버랩 종료 시
+	UFUNCTION()
+	void BlockCollisionOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 	UFUNCTION(BlueprintCallable)
 	void Equip();
+
+	void EndCollision();
 
 protected:
 	// Called when the game starts or when spawned

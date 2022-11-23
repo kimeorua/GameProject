@@ -28,6 +28,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attack")
 	UAnimMontage* RangeAttackMontageStrong; //강 공격 몽타주
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attack")
+	UAnimMontage* HitMontage; //강 공격 몽타주
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attack")
+	UAnimMontage* DieMontage; //강 공격 몽타주
+
 
 public:
 	UEnemyAnimInstance(); // 생성자
@@ -37,4 +43,8 @@ public:
 	void PlayAttackMontage(int num); // 재생할 애니매이션의 번호를 받아 애니메이션 재생
 
 	void PlayRangeAttackMontage();
+
+	void PlayHitMontage();
+
+	void PlayDieMontage();
 };

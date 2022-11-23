@@ -91,8 +91,11 @@ public:
 	bool ActivateSkill;
 
 	//매인 무기
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	class AWeapon* MainWeapon;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
+	class ASheild* MainSheild;
 
 	// 현제 포션의 수
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Portion")
@@ -204,6 +207,17 @@ public:
 	// 무기 셋팅
 	void SettingWeapon(AWeapon* Weapon);
 
+	void SettingSheild(ASheild* Sheild);
+
 	// 마법 발동
 	void MagicOn();
+
+	// 데미지 받을시
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
+	void Hit();
+	UFUNCTION(BlueprintCallable)
+	void HitEnd();
+
+	void Die();
 };

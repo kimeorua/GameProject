@@ -28,6 +28,10 @@ private:
 	UPROPERTY(Category = Character, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UTextRenderComponent* Text;
 
+	//공격 충돌 판정
+	UPROPERTY(Category = Character, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UBoxComponent* CombetCollison;
+
 public: 
 
 	// 플레이어 캐릭터
@@ -63,6 +67,18 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Main")
 	bool bIsMagic;
 
+	FName CombetCollisionName = TEXT("Root");
+
+	//스킬 번호
+	int SkillNum;
+
+	//기본데미지->에디터에서 설정 가능
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Skill")
+	float Damage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Skill")
+	float UpDamage;
+
 public:	
 	// Sets default values for this actor's properties
 	AWeapon(); // 생성자
@@ -90,4 +106,13 @@ public:
 	void MagicActivate();
 	// 마법 해제
 	void MagicDeactivate();
+
+	UFUNCTION()
+	void CombetOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION(BlueprintCallable)
+	void StartCollision();
+
+	UFUNCTION(BlueprintCallable)
+	void EndCollision();
 };

@@ -34,6 +34,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attack")
 	UAnimMontage* BlockEndMontage;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attack")
+	UAnimMontage* HitMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attack")
+	UAnimMontage* DieMontage;
+
 public:
 	UMainAnimInstance(); // 생성자
 
@@ -46,6 +52,9 @@ public:
 	void PlayOnHandCastMontage(); //검&방패 마법 애니매이션 재생
 	void PlayGreatSwordCastMontage();  //대검 마법 애니매이션 재생
 	void PlayBlockEndMontage();
+
+	void PlayHitMontage();
+	void PlayDieMontage();
 
 	UFUNCTION()
 	void AnimNotify_UsePortionEnd();
