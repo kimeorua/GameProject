@@ -550,7 +550,7 @@
 
 ### [5주차 - 패링 구현 및 보스 공통 패턴 구현]
 
-1) 전투 로직 구현
+~~1) 전투 로직 구현~~
 
 2) 마법 공격 구현
 
@@ -819,3 +819,26 @@ Enemy.cpp(https://github.com/kimeorua/kimeorua.github.io/blob/main/private/Enemy
 ### 4. 구현 영상
 
 ![](./img/w4/적AI.gif)
+
+### [5주차]
+
+#### [구현 목표]
+
+1. 전투로직 구현(완료)
+
+2. 마법 구현 (미완, 정식버전때 추가 구현)
+
+### 1.전투로직 구현
+
+1. 보스->플레이어
+
+보스가 플레이어에게 데미지를 주기 위해 보스의 무기에 BoxCollision을 추가하여, overlap이벤트를 발생시킴, BoxCollision이 플레이어와 겹치면(Overlap되면), 
+ApplyDamage()를 통해 데미지를 주고 플레이어는 TageDamage()로 받은데미지 만큼 HP를 감소시킴, 이때 방어 중인지를 판다하여 방어중이면 HP가 아닌 SP를 감소 시킴.
+또한 스킬중에는 피격 모션이 나오지 않고 HP만 감소하며, HP <= 0 -> true 이면 Die()를 호출 사망 애니메이션과, 입력불가 상태 및 겍체를 삭제 시킨다.
+-> 추가로 SP <= 0 -> ture일땐 Stun()를 호출하여, 잠시동안 행동 불가 상태로 만든다.
+
+2. 플레이어->보스 (공격)
+
+플레이어가 사용하는 무기(Weapon)클래스에 BoxCollision을 추가하여 overlap이벤트를 발생시킴, BoxCollision이 보스와 겹치면(Overlap되면), 
+ApplyDamage()를 통해 데미지를 주고 보스는 TageDamage()로 받은데미지 만큼 HP를 감소시킴, HP <= 0 -> true이면 Die()를 호출하여, 
+보스의 사망 애니메이션과 Collision을 off 하고, 삭제 시키며, 그외의 경우에는 Hit()을 호출하여 피격 모션을 재생 시킨다.
