@@ -36,7 +36,7 @@ void UMainAnimInstance::PlayRollingMontage()
 {
 	if (!Montage_IsPlaying(RollingMontage)) // 회피 애니메이션 재생중이 아니면(회피 중이 아니면)
 	{
-		Montage_Play(RollingMontage, 1.0f); // 회피 애니메이션 재생
+		Montage_Play(RollingMontage, 1.5f); // 회피 애니메이션 재생
 	}
 }
 
@@ -77,7 +77,7 @@ void UMainAnimInstance::PlayBlockEndMontage()
 
 void UMainAnimInstance::PlayHitMontage()
 {
-	if (!Montage_IsPlaying(HitMontage))
+	if (!Montage_IsPlaying(HitMontage) && !Montage_IsPlaying(StunMontage))
 	{
 		Montage_Play(HitMontage);
 	}
@@ -88,6 +88,14 @@ void UMainAnimInstance::PlayDieMontage()
 	if (!Montage_IsPlaying(DieMontage))
 	{
 		Montage_Play(DieMontage);
+	}
+}
+
+void UMainAnimInstance::playStunMontage()
+{
+	if (!Montage_IsPlaying(StunMontage))
+	{
+		Montage_Play(StunMontage);
 	}
 }
 

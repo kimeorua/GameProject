@@ -50,9 +50,12 @@ void UBTService_Detect::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 		for (auto const OverlapResult : OverlapResults)
 		{
 			AMainCharacter* Main = Cast<AMainCharacter>(OverlapResult.GetActor()); //bResult가 true면(오버랩되면) 감지된것으로 판단 플레이어를 블랙보드에 기입
+			AEnemy* Enemy = Cast<AEnemy>(OwnerComp.GetAIOwner()->GetPawn());
 			if (Main && Main->GetController()->IsPlayerController())
 			{
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(AEnemyController::PlayerKey, Main);
+				Main->CombetEnemy = Enemy;
+				Enemy->CombetMain = Cast<AMainCharacter>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(AEnemyController::PlayerKey));
 				return;
 			}
 		}
@@ -61,6 +64,6 @@ void UBTService_Detect::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 	{
 		OwnerComp.GetBlackboardComponent()->SetValueAsObject(AEnemyController::PlayerKey, nullptr);
 	}
-	DrawDebugSphere(World, Center, DetectRadius, 16, FColor::Red, false, 0.2f);
+	//DrawDebugSphere(World, Center, DetectRadius, 16, FColor::Red, false, 0.2f);
 
 }

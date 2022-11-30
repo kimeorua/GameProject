@@ -19,7 +19,8 @@ AEnemy::AEnemy()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	HP = 100.f; //생명력 초기화
+	MaxHP = 100.f; //생명력 초기화
+	HP = MaxHP;
 
 	//적 캐릭터의 회전을 좀더 자연스럽게 하기위한 초기화
 	bUseControllerRotationYaw = false; 
@@ -28,13 +29,12 @@ AEnemy::AEnemy()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 480.0f, 0.0f);
 
 	AxeCollision1 = CreateDefaultSubobject<UBoxComponent>(TEXT("AxeCollision1"));
-	AxeCollision1->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, SokcetName1);
 
 	AxeCollision2 = CreateDefaultSubobject<UBoxComponent>(TEXT("AxeCollision2"));
-	AxeCollision2->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, SokcetName2);
 
 	IsAttacking = false;
 	EnemyAnim = nullptr;
+	CombetMain = nullptr;
 
 	Axe1Damage = 6.f;
 	Axe2Damage = 10.f;
@@ -56,7 +56,7 @@ void AEnemy::Axe1OverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* 
 		AMainCharacter* Main = Cast<AMainCharacter>(OtherActor);
 		if (IsValid(Main))
 		{
-			UGameplayStatics::ApplyDamage(Main, Axe1Damage, this->GetController(), this, NULL);
+			UGameplayStatics::ApplyDamage(Main, Axe1Damage, this->GetController(), this, NULL); // 데미지 주는 함수
 		}
 		else { return; }
 	}
@@ -70,23 +70,29 @@ void AEnemy::Axe2OverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* 
 	{
 		AMainCharacter* Main = Cast<AMainCharacter>(OtherActor);
 		if (IsValid(Main))
-		{
-			UGameplayStatics::ApplyDamage(Main, Axe2Damage, this->GetController(), this, NULL);
+		{ 
+			UGameplayStatics::ApplyDamage(Main, Axe2Damage, this->GetController(), this, NULL); // 데미지 주는 함수
 		}
 		else { return; }
 	}
 	else { return; }
 }
 
+// 데미지를 받을시 호출 되는 함수
 float AEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	float Damage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	float Damage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser); 
+	IsAttacking = false; //공격 중이면 공격중을 false로 설정(공격 초기화)
 	if (HP > 0)
 	{
 		if (HP - DamageAmount <= 0)
 		{
 			HP = 0;
-			Die();
+			Die(DamageCauser);
+			if (IsValid(CombetMain))
+			{
+				CombetMain->KillNum += 1;
+			}
 		}
 		else
 		{
@@ -100,19 +106,30 @@ float AEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AC
 void AEnemy::Hit()
 {
 	EnemyAnim->PlayHitMontage();
-}
-
-void AEnemy::Die()
-{
-	EnemyAnim->PlayDieMontage();
-	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	AxeCollision1->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	AxeCollision2->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void AEnemy::Stun()
+{
+	EnemyAnim->PlayStunMontage();
+	AxeCollision1->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	AxeCollision2->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void AEnemy::Die(AActor* DamageCauser)
+{
+	EnemyAnim->PlayDieMontage();
+	AEnemyController* EnemyController = Cast<AEnemyController>(GetController());
+	EnemyController->BehaviorTreeComponent->StopTree();
 
 	FTimerHandle WaitHandle;
 	float WaitTime = 1.0f; //시간을 설정하고
 	GetWorld()->GetTimerManager().SetTimer(WaitHandle, FTimerDelegate::CreateLambda([&]()
 		{
+			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			AxeCollision1->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			AxeCollision2->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			Destroy();
 		}), WaitTime, false); //반복도 여기서 추가 변수를 선언해 설정가능
 	
@@ -124,7 +141,9 @@ void AEnemy::BeginPlay()
 	Super::BeginPlay();
 
 	AxeCollision1->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	AxeCollision1->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, SokcetName1);
 	AxeCollision2->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	AxeCollision2->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, SokcetName2);
 
 	AxeCollision1->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::Axe1OverlapBegin);
 	AxeCollision2->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::Axe2OverlapBegin);

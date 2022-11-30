@@ -8,6 +8,8 @@
 #include "MainCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Enemy.h"
+#include "Sound/SoundCue.h"
+#include "particles/ParticleSystemComponent.h"
 
 // Sets default values
 ASheild::ASheild()
@@ -33,9 +35,10 @@ ASheild::ASheild()
 
 	BlockCollison = CreateDefaultSubobject<UBoxComponent>(TEXT("BlockCollison"));
 	BlockCollison->SetupAttachment(RootComponent);
-	BlockCollison->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	BlockCollison->OnComponentBeginOverlap.AddDynamic(this, &ASheild::BlockCollisionOverlapBegin);
-	BlockCollison->OnComponentEndOverlap.AddDynamic(this, &ASheild::BlockCollisionOverlapEnd);
+
+	BlockParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("BlockParticle"));
+	ParringParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParringParticle"));
+	
 
 	Main = nullptr;
 	EquipAble = false;
@@ -44,6 +47,8 @@ ASheild::ASheild()
 	ModeNum = 0;
 
 	EquipSound = nullptr;
+	BlockSound = nullptr;
+	ParryingSound = nullptr;
 }
 
 void ASheild::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -88,24 +93,7 @@ void ASheild::BlockCollisionOverlapBegin(UPrimitiveComponent* OverlappedComponen
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("OtherActor:: %s"), *OtherActor->GetName());
-		}
-	}
-	UE_LOG(LogTemp, Warning, TEXT("OtherActor:: %s"), *OtherActor->GetName());
-}
-
-void ASheild::BlockCollisionOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	if (OtherActor)
-	{
-		AEnemy* Enemy = Cast<AEnemy>(OtherActor);
-		if (IsValid(Enemy))
-		{
-			bUseBlock = false;
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("OtherActor:: %s"), *OtherActor->GetName());
+			return;
 		}
 	}
 }
@@ -139,11 +127,48 @@ void ASheild::EndCollision()
 	BlockCollison->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+void ASheild::PlayBloackSound()
+{
+	BlockParticle->ToggleActive();
+	UGameplayStatics::PlaySound2D(this, BlockSound);
+
+	FTimerHandle GravityTimerHandle;
+	float GravityTime = 0.1f;
+	GetWorld()->GetTimerManager().SetTimer(GravityTimerHandle, FTimerDelegate::CreateLambda([&]()
+		{
+			BlockParticle->ToggleActive();
+			GetWorld()->GetTimerManager().ClearTimer(GravityTimerHandle);
+		}), GravityTime, false);
+}
+
+void ASheild::PlayParringSound()
+{
+	ParringParticle->ToggleActive();
+	UGameplayStatics::PlaySound2D(this, ParryingSound);
+
+	FTimerHandle GravityTimerHandle;
+	float GravityTime = 0.1f; 
+	GetWorld()->GetTimerManager().SetTimer(GravityTimerHandle, FTimerDelegate::CreateLambda([&]()
+		{
+			ParringParticle->ToggleActive();
+			GetWorld()->GetTimerManager().ClearTimer(GravityTimerHandle);
+		}), GravityTime, false);
+}
+
 // Called when the game starts or when spawned
 void ASheild::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	BlockCollison->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	BlockCollison->OnComponentBeginOverlap.AddDynamic(this, &ASheild::BlockCollisionOverlapBegin);
+
+	BlockParticle->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, Mesh->GetSocketBoneName("Root"));
+	BlockParticle->bAutoActivate = false; //자동 활성화 off -> 마법 스킬 사용시 이펙트 출력
+	ParringParticle->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, Mesh->GetSocketBoneName("Root"));
+	ParringParticle->bAutoActivate = false; //자동 활성화 off -> 마법 스킬 사용시 이펙트 출력
+
+	bUseBlock = false;
 }
 
 // Called every frame

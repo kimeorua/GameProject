@@ -49,6 +49,14 @@ void UEnemyAnimInstance::PlayHitMontage()
 	}
 }
 
+void UEnemyAnimInstance::PlayStunMontage()
+{
+	if (!Montage_IsPlaying(StunMontage))
+	{
+		Montage_Play(StunMontage);
+	}
+}
+
 void UEnemyAnimInstance::PlayDieMontage()
 {
 	if (!Montage_IsPlaying(DieMontage))

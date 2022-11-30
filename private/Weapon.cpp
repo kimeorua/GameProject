@@ -37,14 +37,10 @@ AWeapon::AWeapon()
 	Collison->OnComponentEndOverlap.AddDynamic(this, &AWeapon::OnOverlapEnd); //스피어 콜리전 오버랩 이벤트 생성(End)
 
 	MagicParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MagicParticle")); // 파티클 시스템 컴포넌트 선언
-	// 파티클 컴포넌트를 스켈레탈매쉬의 Root 본에 부착
-	MagicParticle->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, Mesh->GetSocketBoneName("Root"));
 	MagicParticle->bAutoActivate = false; //자동 활성화 off -> 마법 스킬 사용시 이펙트 출력
-
 	CombetCollison = CreateDefaultSubobject<UBoxComponent>(TEXT("CombetCollison"));
-	CombetCollison->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, CombetCollisionName);
-	CombetCollison->OnComponentBeginOverlap.AddDynamic(this, &AWeapon::CombetOverlapBegin);
-
+	
+	
 	//변수//
 	Main = nullptr;
 	EquipAble = false;
@@ -67,6 +63,10 @@ void AWeapon::BeginPlay()
 	Super::BeginPlay();
 
 	CombetCollison->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	CombetCollison->OnComponentBeginOverlap.AddDynamic(this, &AWeapon::CombetOverlapBegin);
+	MagicParticle->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, Mesh->GetSocketBoneName("Root"));
+	
+	CombetCollison->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, CombetCollisionName);
 }
 
 // Called every frame
@@ -189,12 +189,12 @@ void AWeapon::CombetOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActo
 			else
 			{
 				UGameplayStatics::ApplyDamage(Enemy, Damage * 0.5, NULL, this, NULL);
+				UE_LOG(LogTemp, Warning, TEXT("Damaged Actor"));
 			}
 		}
 		else { return; }
 	}
 	else { return; }
-	UE_LOG(LogTemp, Warning, TEXT("OtherActor:: %s"), *OtherActor->GetName());
 }
 
 // 애니메이션BP에서 노티파이를 통해 호출 콜리전on/off
