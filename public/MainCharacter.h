@@ -137,6 +137,18 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
 	bool bIsRecovery;
 
+	// 패링 가능 여부
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combet")
+	bool bIsParrying;
+	
+	// 전투 중인 적 저장 변수
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combet")
+	class AEnemy* CombetEnemy;
+
+	// 잡은 보스 수
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combet")
+	int KillNum;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -220,4 +232,13 @@ public:
 	void HitEnd();
 
 	void Die();
+
+	void Stun();
+	UFUNCTION(BlueprintCallable)
+	void StunEnd();
+
+	UFUNCTION(BlueprintCallable)
+	void ParryingStart();
+	UFUNCTION(BlueprintCallable)
+	void ParryingEnd();
 };

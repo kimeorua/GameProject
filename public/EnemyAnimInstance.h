@@ -32,6 +32,9 @@ public:
 	UAnimMontage* HitMontage; //강 공격 몽타주
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attack")
+	UAnimMontage* StunMontage; //강 공격 몽타주
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attack")
 	UAnimMontage* DieMontage; //강 공격 몽타주
 
 
@@ -45,6 +48,8 @@ public:
 	void PlayRangeAttackMontage();
 
 	void PlayHitMontage();
+
+	void PlayStunMontage();
 
 	void PlayDieMontage();
 };

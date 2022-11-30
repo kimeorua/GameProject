@@ -40,6 +40,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attack")
 	UAnimMontage* DieMontage;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attack")
+	UAnimMontage* StunMontage;
+
 public:
 	UMainAnimInstance(); // »ý¼ºÀÚ
 
@@ -55,6 +58,7 @@ public:
 
 	void PlayHitMontage();
 	void PlayDieMontage();
+	void playStunMontage();
 
 	UFUNCTION()
 	void AnimNotify_UsePortionEnd();

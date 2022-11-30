@@ -44,7 +44,9 @@ public:
 
 	void Hit();
 
-	void Die();
+	void Stun();
+
+	void Die(AActor* DamageCauser);
 
 protected:
 	virtual void BeginPlay() override;
@@ -57,6 +59,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
 	float HP; //생명력
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+	float MaxHP; //최대생명력
+
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, category = "Attack")
 	bool IsAttacking = false; // 공격중인지 판단 하는 변수
 
@@ -65,6 +70,9 @@ public:
 	class UBoxComponent* AxeCollision1;
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, category = "Attack")
 	class UBoxComponent* AxeCollision2;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, category = "Combet")
+	class AMainCharacter* CombetMain;
 
 	FName SokcetName1 = TEXT("ghostbeast_hand_r");
 	FName SokcetName2 = TEXT("ghostbeast_hand_l");

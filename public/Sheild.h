@@ -51,7 +51,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mode")
 	USoundBase* EquipSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
+	class USoundCue* BlockSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
+	class USoundCue* ParryingSound;
+
 	bool bUseBlock = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Skill")
+	UParticleSystemComponent* BlockParticle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Skill")
+	UParticleSystemComponent* ParringParticle;
 
 public:	
 	// Sets default values for this actor's properties
@@ -66,14 +78,14 @@ public:
 
 	UFUNCTION()
 	void BlockCollisionOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	//오버랩 종료 시
-	UFUNCTION()
-	void BlockCollisionOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	UFUNCTION(BlueprintCallable)
 	void Equip();
 
 	void EndCollision();
+
+	void PlayBloackSound();
+	void PlayParringSound();
 
 protected:
 	// Called when the game starts or when spawned
