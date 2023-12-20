@@ -1,4 +1,4 @@
-# 프로젝트명: Magnus Bellator(1888003 김대겸)
+# 프로젝트명: Magnus Bellator
 
 ## [목차]
 
